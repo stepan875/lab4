@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Головна{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 py-16 text-white rounded-lg shadow-lg border-4 border-blue-700">
+    <div class="container mx-auto px-6 md:px-12 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold drop-shadow-lg mb-4">
+            Ласкаво просимо до магазину комп'ютерної техніки
+        </h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
+            Оберіть сучасну комп'ютерну техніку, яка відповідає вашим потребам. Ми пропонуємо найкращі пристрої, які поєднують стиль, потужність і функціональність.
+        </p>
+    </div>
+</section>
+
+<section class="py-12 bg-gray-100">
+    <div class="container mx-auto px-6 md:px-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">
+            Наші популярні товари
+        </h2>
+        <div class="relative">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                        <img src="https://scdn.comfy.ua/89fc351a-22e7-41ee-8321-f8a9356ca351/https://cdn.comfy.ua/media/catalog/product/a/c/acer-aspire-5-a515-58m-a515-58mt-s50-55-non-fingerprint-with-backlit-wallpaper-logo-steel-gray-01.tif-custom_1.jpg/w_600" alt="Товар 1" class="w-32 h-32 rounded-lg mb-4">
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">Ноутбук Acer Aspire 5</h3>
+                        <p class="text-gray-600">Сучасний дизайн, висока продуктивність.</p>
+                        <a href="/shop" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition">
+                            Детальніше
+                        </a>
+                    </div>
+                    <div class="swiper-slide bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                        <img src="https://content2.rozetka.com.ua/goods/images/big/476068659.png" alt="Товар 2" class="w-32 h-32 rounded-lg mb-4">
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">Мишка Logitech MX Master</h3>
+                        <p class="text-gray-600">Ергономічний дизайн для комфортної роботи.</p>
+                        <a href="/shop" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition">
+                            Детальніше
+                        </a>
+                    </div>
+                    <div class="swiper-slide bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                        <img src="https://content.rozetka.com.ua/goods/images/big/350345717.jpg" alt="Товар 3" class="w-32 h-32 rounded-lg mb-4">
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">Монітор Samsung 24"</h3>
+                        <p class="text-gray-600">Якісне зображення для роботи та розваг.</p>
+                        <a href="/shop" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition">
+                            Детальніше
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 3,
+            },
+        },
+    });
+</script>
+
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-6 md:px-12 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+            Чому обирають нас?
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 bg-gray-100 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold text-gray-700">Висока якість</h3>
+                <p class="mt-2 text-gray-600">Ми пропонуємо тільки перевірену продукцію відомих брендів.</p>
+            </div>
+            <div class="p-6 bg-gray-100 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold text-gray-700">Доступні ціни</h3>
+                <p class="mt-2 text-gray-600">Конкурентоспроможні ціни на весь асортимент.</p>
+            </div>
+            <div class="p-6 bg-gray-100 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold text-gray-700">Швидка доставка</h3>
+                <p class="mt-2 text-gray-600">Оперативна доставка по всій країні.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="py-6 bg-white text-gray-600">
+    <div class="container mx-auto px-6 md:px-12 text-center">
+        <p>&copy; 2024 Магазин комп'ютерної техніки. Усі права захищено.</p>
+        <p>
+            <a href="#" class="text-blue-500 hover:underline">Умови використання</a> | 
+            <a href="#" class="text-blue-500 hover:underline">Політика конфіденційності</a>
+        </p>
+    </div>
+</footer>
+{% endblock %}

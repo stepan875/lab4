@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мій Flask проєкт{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes slideDown {
+            0% { max-height: 0; opacity: 0; }
+            100% { max-height: 300px; opacity: 1; }
+        }
+        @keyframes slideUp {
+            0% { max-height: 300px; opacity: 1; }
+            100% { max-height: 0; opacity: 0; }
+        }
+        .animate-slide-down {
+            animation: slideDown 0.3s ease-out forwards;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-in forwards;
+        }
+
+        nav {
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid #777777;
+        }
+        nav a {
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.375rem;
+            color: rgb(0, 0, 0);
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #4a5568;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Логотип у вигляді букви Т -->
+            <div>
+                <a href="/" class="text-3xl font-bold text-black">ElectroHub</a>
+            </div>
+
+            <!-- Меню навігації в правому куті -->
+            <div class="space-x-6">
+                <a href="{{ url_for('home') }}" class="text-lg hover:text-blue-300">Головна</a>
+                <a href="{{ url_for('about') }}" class="text-lg hover:text-blue-300">Про нас</a>
+                <a href="{{ url_for('feedback.feedback') }}" class="text-lg hover:text-blue-300">Зворотній зв'язок</a>
+                <a href="{{ url_for('shop.shop') }}" class="text-lg hover:text-blue-300">Магазин</a>
+                <a href="{{ url_for('shop.cart') }}" class="text-lg hover:text-blue-300">Кошик</a>
+            </div>
+
+            <!-- Кнопка мобільного меню -->
+            <button id="mobile-menu-button" class="md:hidden absolute top-5 right-5 text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('animate-slide-up');
+                mobileMenu.classList.remove('animate-slide-down');
+            } else {
+                mobileMenu.classList.add('animate-slide-down');
+                mobileMenu.classList.remove('animate-slide-up');
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const menu = document.getElementById('menu');
+            const bars = menuToggle.querySelectorAll('.bar');
+
+            menuToggle.addEventListener('click', function() {
+                menu.classList.toggle('hidden');
+                menu.classList.toggle('lg:flex');
+                bars[0].classList.toggle('rotate-45');
+                bars[0].classList.toggle('translate-y-2');
+                bars[1].classList.toggle('opacity-0');
+                bars[2].classList.toggle('-rotate-45');
+                bars[2].classList.toggle('-translate-y-2');
+                
+                if (menu.classList.contains('hidden')) {
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    menuToggle.setAttribute('aria-label', 'Відкрити меню');
+                } else {
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                    menuToggle.setAttribute('aria-label', 'Закрити меню');
+                }
+            });
+
+            // Закриваємо меню при кліку поза ним на мобільних пристроях
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth < 1024) { // lg breakpoint
+                    const isClickInside = menu.contains(event.target) || menuToggle.contains(event.target);
+                    if (!isClickInside && !menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('lg:flex');
+                        bars[0].classList.remove('rotate-45', 'translate-y-2');
+                        bars[1].classList.remove('opacity-0');
+                        bars[2].classList.remove('-rotate-45', '-translate-y-2');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        menuToggle.setAttribute('aria-label', 'Відкрити меню');
+                    }
+                }
+            });
+
+            // Перевіряємо розмір вікна при завантаженні та зміні розміру
+            function checkWindowSize() {
+                if (window.innerWidth >= 1024) {
+                    menu.classList.remove('hidden');
+                    menu.classList.add('lg:flex');
+                } else {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('lg:flex');
+                }
+            }
+
+            window.addEventListener('resize', checkWindowSize);
+            checkWindowSize(); // Викликаємо функцію при завантаженні сторінки
+        });
+    </script>
+</body>
+</html>

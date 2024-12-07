@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Адмін-панель{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-lg rounded-lg p-6 space-y-8">
+    <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Адмін-панель</h1>
+        <p class="text-gray-500">Керуйте замовленнями та повідомленнями зворотного зв'язку</p>
+    </div>
+
+    <div>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Замовлення</h2>
+        <div class="overflow-x-auto bg-gray-50 rounded-lg shadow-sm">
+            <table class="min-w-full table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">ID</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Email</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Сума</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Статус</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Дата</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Дії</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for order in orders %}
+                    <tr class="hover:bg-gray-50 transition ease-in-out duration-150">
+                        <td class="py-4 px-6">{{ order['id'] }}</td>
+                        <td class="py-4 px-6">{{ order['email'] }}</td>
+                        <td class="py-4 px-6">{{ order['total_price'] }} грн</td>
+                        <td class="py-4 px-6">
+                            <span class="px-3 inline-flex text-xs font-semibold rounded-full
+                            {% if order['status'] == 'Нове' %}bg-green-100 text-green-800
+                            {% elif order['status'] == 'В обробці' %}bg-yellow-100 text-yellow-800
+                            {% elif order['status'] == 'Відправлено' %}bg-blue-100 text-blue-800
+                            {% elif order['status'] == 'Доставлено' %}bg-purple-100 text-purple-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ order['status'] }}
+                            </span>
+                        </td>
+                        <td class="py-4 px-6">{{ order['date'] }}</td>
+                        <td class="py-4 px-6 text-sm font-medium">
+                            <a href="{{ url_for('admin.order_details', order_id=order['id']) }}" class="text-indigo-600 hover:text-indigo-800">Деталі</a>
+                            <form action="{{ url_for('admin.delete_order_route', order_id=order['id']) }}" method="post" class="inline-block ml-3">
+                                <button type="submit" class="text-red-600 hover:text-red-800">Видалити</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Повідомлення зворотного зв'язку</h2>
+        <div class="overflow-x-auto bg-gray-50 rounded-lg shadow-sm">
+            <table class="min-w-full table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">ID</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Ім'я</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Email</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Повідомлення</th>
+                        <th class="py-3 px-6 text-xs font-medium text-gray-600 uppercase tracking-wider">Дії</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for item in feedback %}
+                    <tr class="hover:bg-gray-50 transition ease-in-out duration-150">
+                        <td class="py-4 px-6">{{ item['id'] }}</td>
+                        <td class="py-4 px-6">{{ item['name'] }}</td>
+                        <td class="py-4 px-6">{{ item['email'] }}</td>
+                        <td class="py-4 px-6">
+                            <div class="text-sm text-gray-900 truncate max-w-xs">{{ item['message'] }}</div>
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium">
+                            <form action="{{ url_for('admin.delete_feedback', id=item['id']) }}" method="post">
+                                <button type="submit" class="text-red-600 hover:text-red-800">Видалити</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
